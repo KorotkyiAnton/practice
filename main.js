@@ -63,7 +63,7 @@ window.onload = () => {
     function addGotData(data) {
         listOfContact.innerHTML = "";
         data.forEach((row, index) => {
-            listOfContact.innerHTML += "<li class=\"list-group-item\">\n" +
+            listOfContact.innerHTML += "<li class=\"list-group-item mb-1\">\n" +
                 "            <div class=\"d-flex flex-row align-items-center\">\n" +
                 "                <a class=\"nav-link d-flex flex-fill\" data-bs-toggle=\"collapse\" href=\"#id" + index + "\">\n" +
                 row.first +
@@ -92,7 +92,7 @@ window.onload = () => {
      * debugging
      * Это потом сотрете
      */
-    let data = '[{"first":"Anton", "second":"university", "third":"friend", "fourth":"2002.01.02", "fifth":"380664236782", "sixth":"anton.korotkyi@nure.ua", "seventh":"Barabolkina st.", "eighth":"2022.06.01", "ninth":"sdfsdf", "tenth":"fsdfsdf"}, {"first":"Daniil", "second":"university", "third":"friend", "fourth":"01.03.2002", "fifth":"380996327334", "sixth":"daniil.hurenko@nure.ua", "seventh":"Dostoevskii st.", "eighth":"2022.06.28", "ninth":"sdfsdf", "tenth":"fsdfsdf"}]';
+    let data = '[{"first":"Anton", "second":"university", "third":"friend", "fourth":"2002.01.02", "fifth":"380664236782", "sixth":"anton.korotkyi@nure.ua", "seventh":"Barabolkina st.", "eighth":"2022.06.01", "ninth":"sdfsdf", "tenth":"fsdfsdf"}, {"first":"Daniil", "second":"university", "third":"friend", "fourth":"01.03.2002", "fifth":"380996327334", "sixth":"daniil.hurenko@nure.ua", "seventh":"Dostoevskii st.", "eighth":"2022.06.28", "ninth":"sdfsdf", "tenth":"fsdfsdf"}, {"first":"Daniil", "second":"university", "third":"friend", "fourth":"01.03.2002", "fifth":"380996327334", "sixth":"daniil.hurenko@nure.ua", "seventh":"Dostoevskii st.", "eighth":"2022.06.28", "ninth":"sdfsdf", "tenth":"fsdfsdf"}, {"first":"Daniil", "second":"university", "third":"friend", "fourth":"01.03.2002", "fifth":"380996327334", "sixth":"daniil.hurenko@nure.ua", "seventh":"Dostoevskii st.", "eighth":"2022.06.28", "ninth":"sdfsdf", "tenth":"fsdfsdf"}, {"first":"Daniil", "second":"university", "third":"friend", "fourth":"01.03.2002", "fifth":"380996327334", "sixth":"daniil.hurenko@nure.ua", "seventh":"Dostoevskii st.", "eighth":"2022.06.28", "ninth":"sdfsdf", "tenth":"fsdfsdf"}, {"first":"Daniil", "second":"university", "third":"friend", "fourth":"01.03.2002", "fifth":"380996327334", "sixth":"daniil.hurenko@nure.ua", "seventh":"Dostoevskii st.", "eighth":"2022.06.28", "ninth":"sdfsdf", "tenth":"fsdfsdf"}]';
     addGotData(JSON.parse(data));
     /**
      * end of debugging
