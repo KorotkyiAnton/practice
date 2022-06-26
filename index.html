@@ -13,8 +13,8 @@
             crossorigin="anonymous"></script>
     <script src="main.js"></script>
 </head>
-<body class="bg-dark">
-<header>
+<body class="bg-dark d-flex flex-column min-vh-100">
+<header class="mb-2">
     <nav class="navbar navbar-dark bg-dark bg-gradient">
         <div class="container-fluid">
             <a class="navbar-brand" href="index.html" id="main">Contact manager</a>
@@ -32,7 +32,7 @@
                         <a class="nav-link" href="#" id="import" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">Import</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="index.html?page=export" id="export">Export</a>
+                        <a class="nav-link" href="#" id="export">Export</a>
                     </li>
                 </ul>
                 <form id="searchForm" class="d-flex" role="search" action="" method="post">
@@ -121,7 +121,20 @@
         <label for="file" class="text-white">Choose file to import:</label>
         <input id="file" type="file">
     </form>
-
 </main>
+
+<footer class="mt-auto lh-lg bg-dark bg-gradient">
+    <ul class="list-group list-group-flush d-flex flex-row justify-content-center" id="bottomMenu">
+        <li class="list-group-item bg-transparent text-white ">
+            <a class="nav-link" href="https://github.com/KorotkyiAnton/practice" target="_blank">Git Hub</a>
+        </li>
+        <li class="list-group-item bg-transparent text-white">
+            <a class="nav-link" data-bs-toggle="collapse" href="#aboutUs">About Us</a>
+        </li>
+    </ul>
+    <div class="collapse text-white mb-4" id="aboutUs">
+        <span class="d-flex justify-content-center">Практична робота "Менеджер контактів" виконана студентами групи КІУКІ-19-6 Горєловим Даніїлом, Ляпіним Ярославом, Коротким Антоном</span>
+    </div>
+</footer>
 </body>
 </html>
