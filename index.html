@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Contact Manager</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+            crossorigin="anonymous"></script>
+    <script src="main.js"></script>
+</head>
+<body class="bg-dark">
+<header>
+    <nav class="navbar navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html" id="main">Contact manager</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item" id="addContact">
+                        <a class="nav-link addRedactContact" href="#" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">Add Contact</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="import" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">Import</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html?page=export" id="export">Export</a>
+                    </li>
+                </ul>
+                <form id="searchForm" class="d-flex" role="search" action="" method="post">
+                    <select class="form-select me-2">
+                        <option>Name</option>
+                        <option>Company</option>
+                        <option>Group</option>
+                        <option>Birthday</option>
+                        <option>Phone</option>
+                        <option>Email</option>
+                        <option>Address</option>
+                        <optionp>Last Call</optionp>
+                        <option>Addition Info</option>
+                        <option>Description</option>
+                    </select>
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-light" type="submit">Search</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<main id="mainContent">
+<!--  List Of Contacts  -->
+    <ul class="list-group ms-2 me-2" id="listOfContact">
+        <li class="list-group-item">
+            <div class="d-flex flex-row align-items-center">
+                <a class="nav-link d-flex flex-fill" data-bs-toggle="collapse" href="#id1">
+                    Anton
+                </a>
+                <button type="button" class="btn btn-icon" id="edit">🖊</span>Edit</button>
+                <button type="button" class="btn btn-icon" id="delete">🗑</span>Delete</button>
+            </div>
+            <div class="collapse" id="id1">
+                <div class="card card-body">
+                    <p>Company: </p>
+                    <p>Group: </p>
+                    <p>Birthday: </p>
+                    <p>Phone: </p>
+                    <p>Email: </p>
+                    <p>Address: </p>
+                    <p>Last Call: </p>
+                    <p>Addition Info: </p>
+                    <p>Description: </p>
+                </div>
+            </div>
+        </li>
+    </ul>
+
+<!--  Add And Edit Contact  -->
+    <form id="contactForm" class="ms-3 me-3" action="" method="post">
+        <div class="mb-2">
+            <label for="name" class="form-label text-white">Name</label>
+            <input type="text" class="form-control bg-dark" id="name" aria-describedby="emailHelp">
+        </div>
+        <div class="mb-2">
+            <label for="company" class="form-label text-white">Company</label>
+            <input type="text" class="form-control bg-dark" id="company" aria-describedby="emailHelp">
+        </div>
+        <div class="mb-2">
+            <label for="group" class="form-label text-white">Group</label>
+            <input type="text" class="form-control bg-dark" id="group" aria-describedby="emailHelp">
+        </div>
+        <div class="mb-2">
+            <label for="phone" class="form-label text-white">Phone</label>
+            <input type="text" class="form-control bg-dark" id="phone" aria-describedby="emailHelp">
+        </div>
+        <div class="mb-2">
+            <label for="email" class="form-label text-white">Email</label>
+            <input type="email" class="form-control bg-dark" id="email" aria-describedby="emailHelp">
+        </div>
+        <div class="mb-2">
+            <label for="address" class="form-label text-white">Address</label>
+            <input type="text" class="form-control bg-dark" id="address" aria-describedby="emailHelp">
+        </div>
+        <div class="mb-2">
+            <label for="birthday" class="form-label text-white">Birthday</label>
+            <input type="text" class="form-control bg-dark" id="birthday" aria-describedby="emailHelp">
+        </div>
+        <button type="submit" class="btn btn-outline-light">Submit</button>
+    </form>
+
+<!--  Import  -->
+    <form id="importContactForm" action="" method="post">
+        <label for="file" class="text-white">Choose file to import:</label>
+        <input id="file" type="file">
+    </form>
+
+</main>
+</body>
+</html>
