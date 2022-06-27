@@ -82,7 +82,7 @@ function addGotData(data) {
    data.forEach((row, index) => {
        if(index != 0 && row.name != '' && row.phone != '' && row.email != '') // По индексу 0 приходят названия столбцов. Остальное проверка важных ячеек, чтоб не выводилась пустота
        {
-           listOfContact.innerHTML += "<li class=\"list-group-item mb1\">\n" +
+           listOfContact.innerHTML += "<li class=\"list-group-item mb-1\">\n" +
            "            <div class=\"d-flex flex-row align-items-center\">\n" +
            "                <a class=\"nav-link d-flex flex-fill\" data-bs-toggle=\"collapse\" href=\"#id" + index + "\">\n" +
            row.name +
@@ -148,5 +148,5 @@ function reminder() {
 }
 
 function updateLastCall() {
-
+    
 }
