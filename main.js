@@ -34,9 +34,10 @@ window.onload = () => {
     })
 
     importContact.addEventListener("click", function () {
-        listOfContact.style.display = "none";
-        contactForm.style.display = "none";
-        importContactForm.style.display = "block";
+        //listOfContact.style.display = "none";
+        //contactForm.style.display = "none";
+        //importContactForm.style.display = "block";
+        importContacts()
     })
 
 
@@ -80,7 +81,7 @@ showAllContacts();
 function addGotData(data) {
    listOfContact.innerHTML = "";
    data.forEach((row, index) => {
-       if(index != 0 && row.name != '' && row.phone != '' && row.email != '') // По индексу 0 приходят названия столбцов. Остальное проверка важных ячеек, чтоб не выводилась пустота
+       if(index !== 0 && row.name !== '' && row.phone !== '' && row.email !== '') // По индексу 0 приходят названия столбцов. Остальное проверка важных ячеек, чтоб не выводилась пустота
        {
            listOfContact.innerHTML += "<li class=\"list-group-item mb-1\">\n" +
            "            <div class=\"d-flex flex-row align-items-center\">\n" +
@@ -88,7 +89,7 @@ function addGotData(data) {
            row.name +
            "                </a>\n" +
            "                <button type=\"button\" class=\"btn btn-icon\" onclick='updateLastCall()'>🕿</span>Call</button>" +
-           "                <button type=\"button\" class=\"btn btn-icon\" onclick=\"editContactFunction(this)\" data-phone='" + row.phone + "'>🖊</span>Edit</button>\n" +
+           "                <button type=\"button\" class=\"btn btn-icon\" onclick=\"editContactFunction(this)\" data-name='" + row.name +"'data-company='" + row.company +"'data-group='" + row.group +"'data-birthday='" + row.birthday +"'data-phone='" + row.phone +"'data-email='" + row.email +"'data-address='" + row.address +"'data-lastCall='" + row.lastCall +"'data-additionInfo='" + row.additionInfo +"'data-Description='" + row.Description +  "'>🖊</span>Edit</button>\n" +
            "                <button type=\"button\" class=\"btn btn-icon\" onclick=\"deleteContactFunction(this)\" data-phone='" + row.phone + "'>🗑</span>Delete</button>\n" +
            "            </div>\n" +
            "            <div class=\"collapse\" id=\"id" + index + "\">\n" +
@@ -112,8 +113,20 @@ function addGotData(data) {
 function editContactFunction(object) {
     listOfContact.style.display = "none";
     contactForm.style.display = "block";
+    document.getElementById("name").setAttribute('value',object.getAttribute("data-name"));
+    document.getElementById("company").setAttribute('value',object.getAttribute("data-company"));
+    document.getElementById("group").setAttribute('value',object.getAttribute("data-group"));
+    document.getElementById("birthday").setAttribute('value',object.getAttribute("data-birthday"));
+    document.getElementById("phone").setAttribute('value',object.getAttribute("data-phone"));   
+    document.getElementById("email").setAttribute('value',object.getAttribute("data-email"));
+    document.getElementById("address").setAttribute('value',object.getAttribute("data-address"));
+    document.getElementById("lastCall").setAttribute('value',object.getAttribute("data-lastCall"));   
+    document.getElementById("additionInfo").setAttribute('value',object.getAttribute("data-additionInfo"));
+    document.getElementById("description").setAttribute('value',object.getAttribute("data-description"));
+    console.log(field);
     //edit item by phone
-    window.alert(object.getAttribute("data-phone"));
+    window.alert(field);
+    //добавить обработку submit
 }
 
 function deleteContactFunction(object) {
@@ -137,10 +150,64 @@ function searchContact(field) {
 
 function exportContacts(path) {
     //я думаю, что надо просто выбрать все данные из таблицы, запихнуть их в JSON и все
+   /* fetch(scriptUrl)
+    .then(res => res.json())
+    .then(data => {			
+    })*/
+    
+    const data = {
+        "name": "John",
+        "age": 22,
+        "hobby": {
+        "reading" : true,
+        "gaming" : false,
+        "sport" : "football"
+        },
+        "class" : ["JavaScript", "HTML", "CSS"]
+    }
+
+    var a = document.createElement("a");
+    var file = new Blob([JSON.stringify(data)], {type: "application/json"});
+    a.href = URL.createObjectURL(file);
+    a.download = "export.json";
+    
+    a.click();
+
+}
+
+function getImportFile() {
+    
+    fileInput=document.getElementById("file");
+    fileInput.click();
 }
 
 function importContacts() {
+    fileInput=document.getElementById("file");
+    getImportFile()  
+    fileInput.onchange = function(e) { 
 
+        if (!fileInput) {
+            alert("Um, couldn't find the fileinput element.");
+          }
+          else if (!fileInput.files) {
+            alert("This browser doesn't seem to support the `files` property of file inputs.");
+          }
+          else if (!fileInput.files[0]) {
+            alert("Please select a file before clicking 'Load'");
+          }
+          else {
+            file = fileInput.files[0];
+            fr = new FileReader();
+            fr.onload = receivedText;
+            fr.readAsText(file);
+          }
+      
+          function receivedText(e) {
+            let lines = e.target.result;
+            var newArr = JSON.parse(lines); 
+            console.log(newArr)
+          }
+      };
 }
 
 function reminder() {

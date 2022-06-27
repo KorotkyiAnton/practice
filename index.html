@@ -32,7 +32,7 @@
                         <a class="nav-link" href="#" id="import" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">Import</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#" id="export">Export</a>
+                        <a class="nav-link" href="#" onclick="exportContacts();" id="export">Export</a>
                     </li>
                 </ul>
                 <form id="searchForm" class="d-flex" role="search" action="" method="post">
@@ -88,31 +88,31 @@
     <form id="contactForm" class="ms-3 me-3" action="" method="post">
         <div class="mb-2">
             <label for="name" class="form-label text-white">Name</label>
-            <input type="text" class="form-control bg-dark" id="name" aria-describedby="emailHelp">
+            <input type="text" class="form-control bg-dark text-white" id="name" aria-describedby="emailHelp">
         </div>
         <div class="mb-2">
             <label for="company" class="form-label text-white">Company</label>
-            <input type="text" class="form-control bg-dark" id="company" aria-describedby="emailHelp">
+            <input type="text" class="form-control bg-dark text-white" id="company" aria-describedby="emailHelp">
         </div>
         <div class="mb-2">
             <label for="group" class="form-label text-white">Group</label>
-            <input type="text" class="form-control bg-dark" id="group" aria-describedby="emailHelp">
+            <input type="text" class="form-control bg-dark text-white" id="group" aria-describedby="emailHelp">
         </div>
         <div class="mb-2">
             <label for="phone" class="form-label text-white">Phone</label>
-            <input type="text" class="form-control bg-dark" id="phone" aria-describedby="emailHelp">
+            <input type="text" class="form-control bg-dark text-white" id="phone" aria-describedby="emailHelp">
         </div>
         <div class="mb-2">
             <label for="email" class="form-label text-white">Email</label>
-            <input type="email" class="form-control bg-dark" id="email" aria-describedby="emailHelp">
+            <input type="email" class="form-control bg-dark text-white" id="email" aria-describedby="emailHelp">
         </div>
         <div class="mb-2">
             <label for="address" class="form-label text-white">Address</label>
-            <input type="text" class="form-control bg-dark" id="address" aria-describedby="emailHelp">
+            <input type="text" class="form-control bg-dark text-white" id="address" aria-describedby="emailHelp">
         </div>
         <div class="mb-2">
             <label for="birthday" class="form-label text-white">Birthday</label>
-            <input type="text" class="form-control bg-dark" id="birthday" aria-describedby="emailHelp">
+            <input type="text" class="form-control bg-dark text-white" id="birthday" aria-describedby="emailHelp">
         </div>
         <button type="submit" class="btn btn-outline-light">Submit</button>
     </form>
