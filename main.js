@@ -50,6 +50,7 @@ window.onload = () => {
      * 6: Экспорт exportContacts(string pathToFile)
      * 7: Импорт importContacts()
      * 8: Напоминалка reminder()
+     * 9: Обновить дату последнего звонка updateLastCall()
      */
 
     /**
@@ -86,6 +87,7 @@ function addGotData(data) {
            "                <a class=\"nav-link d-flex flex-fill\" data-bs-toggle=\"collapse\" href=\"#id" + index + "\">\n" +
            row.name +
            "                </a>\n" +
+           "                <button type=\"button\" class=\"btn btn-icon\" onclick='updateLastCall()'>🕿</span>Call</button>" +
            "                <button type=\"button\" class=\"btn btn-icon\" onclick=\"editContactFunction(this)\" data-phone='" + row.phone + "'>🖊</span>Edit</button>\n" +
            "                <button type=\"button\" class=\"btn btn-icon\" onclick=\"deleteContactFunction(this)\" data-phone='" + row.phone + "'>🗑</span>Delete</button>\n" +
            "            </div>\n" +
@@ -142,5 +144,9 @@ function importContacts() {
 }
 
 function reminder() {
+
+}
+
+function updateLastCall() {
 
 }
