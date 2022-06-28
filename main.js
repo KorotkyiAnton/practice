@@ -4,9 +4,6 @@
  const scriptUrl = 'https://script.google.com/macros/s/AKfycbxKD506XrzVCa1NOPdNEQr9EQSS6LUjwpIsYjC7JAW8EHdt3ECKfdacdX71UP3Lc4votA/exec'; // Ссылка на развернутое веб-приложение gas
  var dataOnSite; // Данные которые сейчас на экране 
  window.onload = () => {
-     //main logo
-     const mainLogo = document.getElementById("main");
- 
      //menu fields
      const addContact = document.getElementById("addContact");
      const importContact = document.getElementById("import");
@@ -35,20 +32,24 @@
      const importContactForm = document.getElementById("importContactForm");
 
      //hide {contactForm; importContactForm} forms
-     contactForm.style.display = "none";
-     importContactForm.style.display = "none";
+     contactForm.classList.add("collapse");
+     importContactForm.classList.add("collapse");
  
      //two display controllers
      addContact.addEventListener("click", function () {
-         listOfContact.style.display = "none";
-         importContactForm.style.display = "none";
-         contactForm.style.display = "block";
+         listOfContact.classList.add("collapse");
+         importContactForm.classList.add("collapse");
+         contactForm.classList.remove("collapse");
+         document.getElementById("name").setAttribute('value','');
+         document.getElementById("company").setAttribute('value','');
+         document.getElementById("group").setAttribute('value','');
+         document.getElementById("birthday").setAttribute('value','');
+         document.getElementById("phone").setAttribute('value','');
+         document.getElementById("email").setAttribute('value','');
+         document.getElementById("address").setAttribute('value','');
      })
  
      importContact.addEventListener("click", function () {
-         //listOfContact.style.display = "none";
-         //contactForm.style.display = "none";
-         //importContactForm.style.display = "block";
          importContacts()
      })
  
@@ -80,22 +81,23 @@
     console.log(nameInput.value);
     console.log(nameInput.value);
     console.log(nameInput.value);
-     formData.append('operation', 'addPostData'); // передаю тип операции
-     formData.append('name', nameInput.value); 
-     formData.append('company', companyInput.value); 
-     formData.append('group', groupInput.value); 
-     formData.append('phone', phoneInput.value); 
-     formData.append('email', emailInput.value); 
-     formData.append('address', addressInput.value); 
-     formData.append('birthday', birthdayInput.value); 
-     fetch(scriptUrl,{
-         method: 'POST',
-         body: formData
-     })
-         .then(res => res.json())          
-         .then(data => {
-             showAllContacts(); // показать все контакты
-         })
+    const mainLogo = document.getElementById("main");
+    formData.append('operation', 'addPostData'); // передаю тип операции
+    formData.append('name', nameInput.value);
+    formData.append('company', companyInput.value);
+    formData.append('group', groupInput.value);
+    formData.append('phone', phoneInput.value);
+    formData.append('email', emailInput.value);
+    formData.append('address', addressInput.value);
+    formData.append('birthday', birthdayInput.value);
+    fetch(scriptUrl,{
+        method: 'POST',
+        body: formData
+    })
+    .then(res => res.json())
+    .then(data => {
+        mainLogo.click(); // показать все контакты
+    })
 }
  
  function showAllContacts() {  // Показать все контакты
@@ -142,8 +144,9 @@
  }
  
  function editContactFunction(object) { // Изменить контакт
-     listOfContact.style.display = "none";
-     contactForm.style.display = "block";
+     listOfContact.classList.add("collapse");
+     importContactForm.classList.add("collapse");
+     contactForm.classList.remove("collapse");
      document.getElementById("name").setAttribute('value',object.getAttribute("data-name"));
      document.getElementById("company").setAttribute('value',object.getAttribute("data-company"));
      document.getElementById("group").setAttribute('value',object.getAttribute("data-group"));
