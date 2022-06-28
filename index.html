@@ -35,8 +35,8 @@
                         <a class="nav-link" href="#" onclick="exportContacts();" id="export">Export</a>
                     </li>
                 </ul>
-                <form id="searchForm" class="d-flex" role="search" action="" method="post">
-                    <select class="form-select me-2">
+                <div id="searchForm" class="d-flex" role="search">
+                    <select class="form-select me-2" id="searchSelect">
                         <option>Name</option>
                         <option>Company</option>
                         <option>Group</option>
@@ -48,9 +48,9 @@
                         <option>Addition Info</option>
                         <option>Description</option>
                     </select>
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-light" type="submit">Search</button>
-                </form>
+                    <input class="form-control me-2" id="searchInput" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-light" id="searchBtn" type="submit">Search</button>
+                </div>
             </div>
         </div>
     </nav>
@@ -85,7 +85,7 @@
     </ul>
 
 <!--  Add And Edit Contact  -->
-    <form id="contactForm" class="ms-3 me-3" action="" method="post">
+    <div id="contactForm" class="ms-3 me-3">
         <div class="mb-2">
             <label for="name" class="form-label text-white">Name</label>
             <input type="text" class="form-control bg-dark text-white" id="name" aria-describedby="emailHelp">
@@ -114,8 +114,8 @@
             <label for="birthday" class="form-label text-white">Birthday</label>
             <input type="text" class="form-control bg-dark text-white" id="birthday" aria-describedby="emailHelp">
         </div>
-        <button type="submit" class="btn btn-outline-light">Submit</button>
-    </form>
+        <button type="submit" class="btn btn-outline-light" id="btnSubmit">Submit</button>
+    </div>
 
 <!--  Import  -->
     <form id="importContactForm" action="" method="post">
