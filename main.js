@@ -280,3 +280,7 @@ function updateLastCall(object) {
             showAllContacts();// показать все данные в таблице
         })
 }
+
+function sort() {
+
+}
