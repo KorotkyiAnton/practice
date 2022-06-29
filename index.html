@@ -40,10 +40,10 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item" id="addContact">
-                        <a class="nav-link addRedactContact" href="#" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">Add Contact</a>
+                        <a  onclick="AdderSettings();" class="nav-link addRedactContact" href="#" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">Add Contact</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#" id="import" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">Import</a>
+                        <a class="nav-link"  onclick="importContacts();" href="#" id="import" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">Import</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#" onclick="exportContacts();" id="export">Export</a>
@@ -63,7 +63,7 @@
                         <option>Description</option>
                     </select>
                     <input class="form-control me-2" id="searchInput" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-light" id="searchBtn" type="submit">Search</button>
+                    <button class="btn btn-outline-light" id="searchBtn" onclick="searchContact()" type="submit">Search</button>
                 </div>
             </div>
         </div>
@@ -101,7 +101,7 @@
         </li>
     </ul>
 
-<!--  Add And Edit Contact  -->
+<!--  Add And Edit Contact Form -->
     <div id="contactForm" class="ms-3 me-3">
         <div class="mb-2">
             <label for="name" class="form-label text-white">Name</label>
@@ -131,7 +131,7 @@
             <label for="birthday" class="form-label text-white">Birthday</label>
             <input type="text" class="form-control bg-dark text-white" id="birthday" aria-describedby="emailHelp">
         </div>
-        <button type="submit" class="btn btn-outline-light" id="btnSubmit">Submit</button>
+        <button type="submit" class="btn btn-outline-light" id="btnSubmit" onclick="SubmitBtn();">Submit</button>
     </div>
 
 <!--  Import  -->
