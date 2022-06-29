@@ -2,9 +2,10 @@
  * decoration tools
  */
 const scriptUrl = 'https://script.google.com/macros/s/AKfycbza2vNeT_CPPD4yjzvcFVgSlseaDflsJJOBOXww-VBTthZ1iTcG6fkVOElSSYl_DBboDg/exec'; // Ссылка на развернутое веб-приложение gas
-var dataOnSite; // Данные которые сейчас на экране
+let dataOnSite; // Данные которые сейчас на экране
 window.onload = () => {
     const importContactForm = document.getElementById("importContactForm");
+    const sortForm = document.getElementById("sortForm");
     contactForm.classList.add("collapse");
     importContactForm.classList.add("collapse");
 
@@ -17,6 +18,7 @@ function AdderSettings(){
     listOfContact.classList.add("collapse");
     importContactForm.classList.add("collapse");
     contactForm.classList.remove("collapse");
+    sortForm.classList.add("collapse");
     // Установка полей пустыми
     document.getElementById("name").setAttribute('value','');
     document.getElementById("company").setAttribute('value','');
@@ -31,6 +33,7 @@ function AdderSettings(){
 
 // Функция для обработки нажатия на кнопку добавления/изменения контакта
 function SubmitBtn(){
+    localStorage.setItem("nothingChange", "false");
     // Установка полей
     const nameInput = document.getElementById("name");
     const companyInput = document.getElementById("company");
@@ -74,15 +77,24 @@ function addPostData(nameInput, companyInput, groupInput, phoneInput, emailInput
 }
 // Функция вывода всех контактов
 function showAllContacts() {
-    // Отправляется запрос
-    fetch(scriptUrl)//
-        .then(res => res.json())
-        .then(data => {
-            // Получаем данные
-            dataOnSite = data;
-            // Отображаем данные в тегах
-            addGotData(dataOnSite);
-        })
+    console.log(localStorage.getItem("nothingChange"))
+    if(("dataOnSite" in localStorage) && localStorage.getItem("nothingChange") === "true") {
+        addGotData(JSON.parse(localStorage.getItem("dataOnSite")));
+    } else {
+        localStorage.setItem("nothingChange", "true")
+        // Отправляется запрос
+        fetch(scriptUrl)//
+            .then(res => res.json())
+            .then(data => {
+                data = data.reverse();
+                localStorage.setItem("dataOnSite", JSON.stringify(data));
+                console.log(JSON.stringify(data));
+                // Получаем данные
+                dataOnSite = data;
+                // Отображаем данные в тегах
+                addGotData(dataOnSite);
+            })
+    }
 }
 
 // Функция отображения всех контактов
@@ -127,6 +139,7 @@ function editContactFunction(object) {
     listOfContact.classList.add("collapse");
     importContactForm.classList.add("collapse");
     contactForm.classList.remove("collapse");
+    sortForm.classList.add("collapse");
     // Заполняем поля уже имеющимися данными
     document.getElementById("name").setAttribute('value',object.getAttribute("data-name"));
     document.getElementById("company").setAttribute('value',object.getAttribute("data-company"));
@@ -182,6 +195,7 @@ function searchContact() {
     listOfContact.classList.remove("collapse");
     importContactForm.classList.add("collapse");
     contactForm.classList.add("collapse");
+    sortForm.classList.remove("collapse");
 }
 // Функция экспорта контактов
 function exportContacts(path) {
