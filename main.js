@@ -25,6 +25,8 @@ document.getElementById("birthday").setAttribute('value','');
 document.getElementById("phone").setAttribute('value','');
 document.getElementById("email").setAttribute('value','');
 document.getElementById("address").setAttribute('value','');
+document.getElementById("additionalInfo").setAttribute('value','');
+document.getElementById("description").setAttribute('value','');
 }
 
 // Функция для обработки нажатия на кнопку добавления/изменения контакта
@@ -37,8 +39,10 @@ function SubmitBtn(){
     const emailInput = document.getElementById("email");
     const addressInput = document.getElementById("address");
     const birthdayInput = document.getElementById("birthday");
+    const additionalInput = document.getElementById("additionalInfo");
+    const descriptionInput = document.getElementById("description");
         // Вызов функции добавления/изменения
-    addPostData(nameInput, companyInput, groupInput, phoneInput, emailInput, addressInput, birthdayInput);
+    addPostData(nameInput, companyInput, groupInput, phoneInput, emailInput, addressInput, birthdayInput, additionalInput, descriptionInput);
 }
 
 // Функция добавления/изменения контакта 
@@ -55,6 +59,8 @@ function SubmitBtn(){
     formData.append('email', emailInput.value);
     formData.append('address', addressInput.value);
     formData.append('birthday', birthdayInput.value);
+    formData.append('additionalInfo', additionalInput.value);
+    formData.append('description', descriptionInput.value);
         // Передача данных
     fetch(scriptUrl,{
         method: 'POST',
@@ -94,7 +100,7 @@ function SubmitBtn(){
             //Кнопка звонка
             "               <button type=\"button\" class=\"btn btn-icon\" onclick=\"updateLastCall(this)\" data-phone='" + row.phone + "'><span class='phone me-1'></span>Call</button>\n" +
             //Кнопка изменения контакта
-            "                <button type=\"button\" class=\"btn btn-icon\" onclick=\"editContactFunction(this)\" data-name='" + row.name +"'data-company='" + row.company +"'data-group='" + row.group +"'data-birthday='" + row.birthday +"'data-phone='" + row.phone +"'data-email='" + row.email +"'data-address='" + row.address +"'data-lastCall='" + row.lastCall +"'data-additionInfo='" + row.additionInfo +"'data-Description='" + row.Description +  "'><span class='pen me-1'></span>Edit</button>\n" +
+            "                <button type=\"button\" class=\"btn btn-icon\" onclick=\"editContactFunction(this)\" data-name='" + row.name +"'data-company='" + row.company +"'data-group='" + row.group +"'data-birthday='" + row.birthday +"'data-phone='" + row.phone +"'data-email='" + row.email +"'data-address='" + row.address +"'data-lastCall='" + row.lastCall +"'data-addition='" + row.addition +"'data-Description='" + row.description +  "'><span class='pen me-1'></span>Edit</button>\n" +
             //Кнопка удаления контакта
             "                <button type=\"button\" class=\"btn btn-icon\" onclick=\"deleteContactFunction(this)\" data-phone='" + row.phone + "'><span class='trash me-1'></span>Delete</button>\n" +
             "            </div>\n" +
@@ -129,6 +135,8 @@ function SubmitBtn(){
      document.getElementById("phone").setAttribute('value',object.getAttribute("data-phone"));   
      document.getElementById("email").setAttribute('value',object.getAttribute("data-email"));
      document.getElementById("address").setAttribute('value',object.getAttribute("data-address"));
+     document.getElementById("additionalInfo").setAttribute('value',object.getAttribute("data-addition"));
+     document.getElementById("description").setAttribute('value',object.getAttribute("data-description"));
  }
  // Функция удаления контакта
  function deleteContactFunction(object) {
