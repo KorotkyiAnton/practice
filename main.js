@@ -1,7 +1,7 @@
 /**
  * decoration tools
  */
- const scriptUrl = 'https://script.google.com/macros/s/AKfycbxKD506XrzVCa1NOPdNEQr9EQSS6LUjwpIsYjC7JAW8EHdt3ECKfdacdX71UP3Lc4votA/exec'; // Ссылка на развернутое веб-приложение gas
+ const scriptUrl = 'https://script.google.com/macros/s/AKfycbza2vNeT_CPPD4yjzvcFVgSlseaDflsJJOBOXww-VBTthZ1iTcG6fkVOElSSYl_DBboDg/exec'; // Ссылка на развернутое веб-приложение gas
  var dataOnSite; // Данные которые сейчас на экране 
  window.onload = () => {
      //menu fields
@@ -194,35 +194,15 @@
          })
  }
  
- function exportContacts(path) { // Экспорт контактов
-     //я думаю, что надо просто выбрать все данные из таблицы, запихнуть их в JSON и все
-    /* fetch(scriptUrl)
-     .then(res => res.json())
-     .then(data => {			
-     })*/
-     
-     const data = {
-         "name": "John",
-         "age": 22,
-         "hobby": {
-         "reading" : true,
-         "gaming" : false,
-         "sport" : "football"
-         },
-         "class" : ["JavaScript", "HTML", "CSS"]
-     }
- 
+ function exportContacts(path) { // Экспорт контактов, которые на экране
      var a = document.createElement("a");
-     var file = new Blob([JSON.stringify(data)], {type: "application/json"});
+     var file = new Blob([JSON.stringify(dataOnSite)], {type: "application/json"});
      a.href = URL.createObjectURL(file);
      a.download = "export.json";
-     
      a.click();
- 
  }
  
  function getImportFile() {
-     
      fileInput=document.getElementById("file");
      fileInput.click();
  }
@@ -251,14 +231,33 @@
            function receivedText(e) {
              let lines = e.target.result;
              var newArr = JSON.parse(lines); 
-             console.log(newArr)
+             const formData = new FormData();
+             formData.append('operation', 'importContacts'); // тип операции
+             formData.append('data', lines); // номер телефона
+             fetch(scriptUrl,{
+                method: 'POST',
+                body: formData
+            })
+                .then(res => res.json())          
+                .then(data => {
+                    showAllContacts(); // показать все
+                })
            }
        };
  }
  
- function reminder() {
- 
+ function reminder() {  // напоминалка
+    const formData = new FormData();
+     formData.append('operation', 'reminder'); // тип операции
+     fetch(scriptUrl,{
+         method: 'POST',
+         body: formData
+     })
+         .then(res => res.json())          
+         .then(data => {
+         })
  }
+ setInterval(reminder, 86400000);
  
  function updateLastCall(object) { // Обновить последний звонок
     //update last call by phone
