@@ -16,6 +16,15 @@
         .preloader {
             width: 30%;
         }
+        .pen {max-width:20px; max-height:20px; }
+        .pen::after {content: '\00a0';display: inline-block; width:20px; height:20px; background-image: url(pen.svg);padding: 0; }
+        div.pen::after {max-width:20px; width:100%;height:0;padding: 0 0 100% 0;}
+        .phone {max-width:20px; max-height:20px; }
+        .phone::after {content: '\00a0';display: inline-block; width:20px; height:20px;background-image: url(phone.svg);padding: 0; }
+        div.phone::after {max-width:20px; width:100%;height:0;padding: 0 0 100% 0;}
+        .trash {max-width:20px; max-height:20px; }
+        .trash::after {content: '\00a0';display: inline-block; width:20px; height:20px; background-image: url(trash.svg);padding: 0; }
+        div.trash::after {max-width:20px; width:100%;height:0;padding: 0 0 100% 0;}
     </style>
 </head>
 <body class="bg-dark d-flex flex-column min-vh-100">
@@ -69,9 +78,9 @@
                 <a class="nav-link d-flex flex-fill" data-bs-toggle="collapse" href="#id1">
                     None
                 </a>
-                <button type="button" class="btn btn-icon" onclick='updateLastCall()'>🕿</span>Call</button>
-                <button type="button" class="btn btn-icon" onclick='editContactFunction(this)'>🖊</span>Edit</button>
-                <button type="button" class="btn btn-icon" onclick='deleteContactFunction(this)'>🗑</span>Delete</button>
+                <button type="button" class="btn btn-icon" onclick='updateLastCall()'><span class='phone me-1'></span>Call</button>
+                <button type="button" class="btn btn-icon" onclick='editContactFunction(this)'><span class='pen me-1'></span>Edit</button>
+                <button type="button" class="btn btn-icon" onclick='deleteContactFunction(this)'><span class='trash me-1'></span>Delete</button>
             </div>
             <div class="collapse" id="id1">
                 <div class="card card-body">

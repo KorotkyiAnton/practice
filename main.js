@@ -121,9 +121,9 @@
             "                <a class=\"nav-link d-flex flex-fill\" data-bs-toggle=\"collapse\" href=\"#id" + index + "\">\n" +
             row.name +
             "                </a>\n" +
-            "               <button type=\"button\" class=\"btn btn-icon\" onclick=\"updateLastCall(this)\" data-phone='" + row.phone + "'>🕿</span>Call</button>\n" +
-            "                <button type=\"button\" class=\"btn btn-icon\" onclick=\"editContactFunction(this)\" data-name='" + row.name +"'data-company='" + row.company +"'data-group='" + row.group +"'data-birthday='" + row.birthday +"'data-phone='" + row.phone +"'data-email='" + row.email +"'data-address='" + row.address +"'data-lastCall='" + row.lastCall +"'data-additionInfo='" + row.additionInfo +"'data-Description='" + row.Description +  "'>🖊</span>Edit</button>\n" +
-            "                <button type=\"button\" class=\"btn btn-icon\" onclick=\"deleteContactFunction(this)\" data-phone='" + row.phone + "'>🗑</span>Delete</button>\n" +
+            "               <button type=\"button\" class=\"btn btn-icon\" onclick=\"updateLastCall(this)\" data-phone='" + row.phone + "'><span class='phone me-1'></span>Call</button>\n" +
+            "                <button type=\"button\" class=\"btn btn-icon\" onclick=\"editContactFunction(this)\" data-name='" + row.name +"'data-company='" + row.company +"'data-group='" + row.group +"'data-birthday='" + row.birthday +"'data-phone='" + row.phone +"'data-email='" + row.email +"'data-address='" + row.address +"'data-lastCall='" + row.lastCall +"'data-additionInfo='" + row.additionInfo +"'data-Description='" + row.Description +  "'><span class='pen me-1'></span> Edit</button>\n" +
+            "                <button type=\"button\" class=\"btn btn-icon\" onclick=\"deleteContactFunction(this)\" data-phone='" + row.phone + "'><span class='trash me-1'></span>Delete</button>\n" +
             "            </div>\n" +
             "            <div class=\"collapse\" id=\"id" + index + "\">\n" +
             "                <div class=\"card card-body\">\n" +
