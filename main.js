@@ -33,6 +33,7 @@
  
  // Функция для обработки нажатия на кнопку добавления/изменения контакта
  function SubmitBtn(){
+     localStorage.setItem("nothingChange", "false");
      // Установка полей
      const nameInput = document.getElementById("name");
      const companyInput = document.getElementById("company");
@@ -76,15 +77,24 @@
  }
  // Функция вывода всех контактов
  function showAllContacts() {
-     // Отправляется запрос
-     fetch(scriptUrl)//
-         .then(res => res.json())
-         .then(data => {
-             // Получаем данные
-             dataOnSite = data;
-             // Отображаем данные в тегах
-             addGotData(dataOnSite);
-         })
+     console.log(localStorage.getItem("nothingChange"))
+     if(("dataOnSite" in localStorage) && localStorage.getItem("nothingChange") === "true") {
+         addGotData(JSON.parse(localStorage.getItem("dataOnSite")));
+     } else {
+         localStorage.setItem("nothingChange", "true")
+         // Отправляется запрос
+         fetch(scriptUrl)//
+             .then(res => res.json())
+             .then(data => {
+                 data = data.reverse();
+                 localStorage.setItem("dataOnSite", JSON.stringify(data));
+                 console.log(JSON.stringify(data));
+                 // Получаем данные
+                 dataOnSite = data;
+                 // Отображаем данные в тегах
+                 addGotData(dataOnSite);
+             })
+     }
  }
  
  // Функция отображения всех контактов
