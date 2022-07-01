@@ -9,8 +9,7 @@ window.onload = () => {
     const sortForm = document.getElementById("sortForm");
     contactForm.classList.add("collapse");
     importContactForm.classList.add("collapse");
-
-    showAllContacts(); // Показать все контакты
+    showAllContacts(); // Показать все контакты\
 }
 
 // Функция для вывода формы добавления контакта
@@ -20,6 +19,8 @@ function AdderSettings() {
     importContactForm.classList.add("collapse");
     contactForm.classList.remove("collapse");
     sortForm.classList.add("collapse");
+    document.getElementById("Label-phone").classList.remove("collapse");
+    document.getElementById("phone").classList.remove("collapse");
     // Установка полей пустыми
     document.getElementById("name").setAttribute('value', '');
     document.getElementById("company").setAttribute('value', '');
@@ -34,13 +35,27 @@ function AdderSettings() {
 
 // Функция для обработки нажатия на кнопку добавления/изменения контакта
 function SubmitBtn() {
-    localStorage.setItem("nothingChange", "false");
-    // Установка полей
     const nameInput = document.getElementById("name");
-    const companyInput = document.getElementById("company");
-    const groupInput = document.getElementById("group");
     const phoneInput = document.getElementById("phone");
     const emailInput = document.getElementById("email");
+    if(nameInput){
+        console.log(nameInput)
+        alert("Введите имя")
+        return;
+    }
+    if(phoneInput){
+        console.log(phoneInput)
+        alert("Введите телефон")
+        return;
+    }
+    if(emailInput){
+        console.log(emailInput)
+        alert("Введите почту")
+        return;
+    }
+    // Установка полей
+    const companyInput = document.getElementById("company");
+    const groupInput = document.getElementById("group");
     const addressInput = document.getElementById("address");
     const birthdayInput = document.getElementById("birthday");
     const additionInput = document.getElementById("additionalInfo");
@@ -51,8 +66,8 @@ function SubmitBtn() {
 
 // Функция добавления/изменения контакта
 function addPostData(nameInput, companyInput, groupInput, phoneInput, emailInput, addressInput, birthdayInput, additionInput, descriptionInput) {
+    base();
     const formData = new FormData();
-    const mainLogo = document.getElementById("main");
     let dataOnSite = JSON.parse(localStorage.getItem("dataOnSite"));
     if ("index" in localStorage) {
         dataOnSite[localStorage.getItem("index")] = {
@@ -85,6 +100,13 @@ function addPostData(nameInput, companyInput, groupInput, phoneInput, emailInput
         localStorage.setItem("dataOnSite", JSON.stringify(dataOnSite));
     }
 
+function base(){
+    listOfContact.classList.remove("collapse");
+    importContactForm.classList.remove("collapse");
+    contactForm.classList.add("collapse");
+    sortForm.classList.remove("collapse");
+}
+
 // Указание типа операции
     formData.append('operation', 'addPostData');
 // Добавление данных
@@ -97,6 +119,8 @@ function addPostData(nameInput, companyInput, groupInput, phoneInput, emailInput
     formData.append('birthday', birthdayInput.value);
     formData.append('addition', additionInput.value);
     formData.append('description', descriptionInput.value);
+    localStorage.setItem("size", dataOnSite.length);
+    addGotData(dataOnSite);
 // Передача данных
     fetch(scriptUrl, {
         method: 'POST',
@@ -104,29 +128,26 @@ function addPostData(nameInput, companyInput, groupInput, phoneInput, emailInput
     })
         .then(res => res.json())
         .then(data => {
-            // Перезагружаем страницу
-            mainLogo.click();
-            //localStorage.setItem("nothingChange", "false");
         })
 }
 
 // Функция вывода всех контактов
 function showAllContacts() {
-    if (("dataOnSite" in localStorage) && localStorage.getItem("nothingChange") === "true") {
-        addGotData(JSON.parse(localStorage.getItem("dataOnSite")));
+    let dataLocal = JSON.parse(localStorage.getItem("dataOnSite"))
+    if (("dataOnSite" in localStorage)&&(dataLocal.length==JSON.parse(localStorage.getItem("size")))) {
+        sort()
     } else {
-        localStorage.setItem("nothingChange", "true")
         // Отправляется запрос
         fetch(scriptUrl)//
             .then(res => res.json())
             .then(data => {
                 data = data.reverse();
+                localStorage.setItem("size", data.length);
                 localStorage.setItem("dataOnSite", JSON.stringify(data));
                 console.log(JSON.stringify(data));
                 // Получаем данные
                 dataOnSite = data;
-                // Отображаем данные в тегах
-                addGotData(dataOnSite);
+                sort()
             })
     }
 }
@@ -175,6 +196,10 @@ function editContactFunction(object) {
     importContactForm.classList.add("collapse");
     sortForm.classList.add("collapse");
     contactForm.classList.remove("collapse");
+
+    document.getElementById("Label-phone").classList.add("collapse");
+    document.getElementById("phone").classList.add("collapse");
+
     // Заполняем поля уже имеющимися данными
     document.getElementById("name").setAttribute('value', object.getAttribute("data-name"));
     document.getElementById("company").setAttribute('value', object.getAttribute("data-company"));
@@ -191,21 +216,28 @@ function editContactFunction(object) {
 
 // Функция удаления контакта
 function deleteContactFunction(object) {
-    localStorage.setItem("nothingChange", "false");
+    data=JSON.parse(localStorage.getItem("dataOnSite"));
+    date = new Date();
+    dateNow = String(date.getDate()).padStart(2, '0') + '.' + String(date.getMonth() + 1).padStart(2, '0') + '.' + date.getFullYear();
+    Index=data.findIndex(o=>o.phone==object.getAttribute("data-phone"))
+    data.splice(Index,1);
+    localStorage.setItem("dataOnSite", JSON.stringify(data));
     const formData = new FormData();
     // Указание типа операции
     formData.append('operation', 'deleteContact');
     // Передача номера в качестве параметра
     formData.append('phone', object.getAttribute("data-phone"));
+    addGotData(data);
+    localStorage.setItem("size", data.length);
     // Запрос
     fetch(scriptUrl, {
         method: 'POST',
         body: formData
     })
+
         .then(res => res.json())
         .then(data => {
-            // Выводим все контакты
-            showAllContacts();
+
         })
 }
 
@@ -285,10 +317,10 @@ function importContacts() {
             //Парсим данные
             let lines = JSON.parse(e.target.result);
             localStorage.setItem("dataOnSite", JSON.stringify(lines.reverse()));
-            mainLogo.click(); // показать все данные в таблице
-
+            ; // показать все данные в таблице
+            localStorage.setItem("size", data.length);
             lines = e.target.result
-
+            sort()
             //Добавляем данные в форму
             const formData = new FormData();
             formData.append('operation', 'importContacts'); // тип операции
@@ -299,7 +331,6 @@ function importContacts() {
                 body: formData
             })
                 .then(() => {
-                    localStorage.setItem("nothingChange", "false");
                 })
         }
     };
@@ -325,11 +356,21 @@ setInterval(reminder, 86400000);
 
 //Функция, которая обновляет дату последниего звонка
 function updateLastCall(object) {
+    data=JSON.parse(localStorage.getItem("dataOnSite"));
+    date = new Date();
+    dateNow = String(date.getDate()).padStart(2, '0') + '.' + String(date.getMonth() + 1).padStart(2, '0') + '.' + date.getFullYear();
+    console.log(dateNow)
+    Index=data.findIndex(o=>o.phone==object.getAttribute("data-phone"))
+    data[Index].lastCall=dateNow;
+    console.log(data[Index].lastCall)
+    localStorage.setItem("dataOnSite", JSON.stringify(data));
     const formData = new FormData();
     // Указываем операцию
     formData.append('operation', 'updateLastCall');
     // Указываем номер телефона
     formData.append('phone', object.getAttribute("data-phone"));
+    // Отображаем данные в тегах
+    sort()
     // Отправляем запрос
     fetch(scriptUrl, {
         method: 'POST',
@@ -337,10 +378,30 @@ function updateLastCall(object) {
     })
         .then(res => res.json())
         .then(data => {
-            showAllContacts();// показать все данные в таблице
         })
 }
 
 function sort() {
-
+    let sortType = document.getElementById("sortParam");
+    sortType.value;
+    let data = JSON.parse(localStorage.getItem("dataOnSite"));
+    console.log(sortType.value);
+    console.log(data);
+    if(sortType.value == "name"){
+    data.sort(function(a, b){
+        if(a.name.toLowerCase() < b.name.toLowerCase()) { return -1; }
+        if(a.name.toLowerCase() > b.name.toLowerCase()) { return 1; }
+        return 0;
+    })
+    }else if(sortType.value == "lastCall"){
+        data.sort(function(a, b){
+            date1 = new Date(a.lastCall).toLocaleDateString('en-US')
+            date2 = new Date(b.lastCall).toLocaleDateString('en-US')
+            if(date1 < date2) { return -1; }
+            if(date1 > date2) { return 1; }
+            return 0;
+        }) 
+    }
+    localStorage.setItem("dataOnSite", JSON.stringify(data));
+    addGotData(data)
 }
