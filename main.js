@@ -1,7 +1,7 @@
 /**
  * decoration tools
  */
-const scriptUrl = 'https://script.google.com/macros/s/AKfycbxLXCrEyEk2gIgJ_ZvVNrVikrEfsWanfmTOH3znQ_2tad8F3jNxfGNZn-mYJM8sNM0Teg/exec'; // Ссылка на развернутое веб-приложение gas
+const scriptUrl = 'https://script.google.com/macros/s/AKfycbzvprywA1m-k49L6hCtNhlXW6ddvdM93DaAEN_T4zfTv851YPhGpJhMu-iei9BOg3VQiw/exec'; // Ссылка на развернутое веб-приложение gas
 let dataOnSite; // Данные которые сейчас на экране
 
 window.onload = () => {
@@ -53,9 +53,41 @@ function SubmitBtn() {
 function addPostData(nameInput, companyInput, groupInput, phoneInput, emailInput, addressInput, birthdayInput, additionInput, descriptionInput) {
     const formData = new FormData();
     const mainLogo = document.getElementById("main");
-    // Указание типа операции
+    let dataOnSite = JSON.parse(localStorage.getItem("dataOnSite"));
+    if ("index" in localStorage) {
+        dataOnSite[localStorage.getItem("index")] = {
+            "name": nameInput.value,
+            "company": companyInput.value,
+            "group": groupInput.value,
+            "birthday": birthdayInput.value,
+            "phone": parseInt(phoneInput.value),
+            "email": emailInput.value,
+            "address": addressInput.value,
+            "lastCall": null,
+            "addition": additionInput.value,
+            "description": descriptionInput.value
+        };
+        localStorage.removeItem("index")
+        localStorage.setItem("dataOnSite", JSON.stringify(dataOnSite));
+    } else {
+        dataOnSite.unshift({
+            "name": nameInput.value,
+            "company": companyInput.value,
+            "group": groupInput.value,
+            "birthday": birthdayInput.value,
+            "phone": parseInt(phoneInput.value),
+            "email": emailInput.value,
+            "address": addressInput.value,
+            "lastCall": null,
+            "addition": additionInput.value,
+            "description": descriptionInput.value
+        });
+        localStorage.setItem("dataOnSite", JSON.stringify(dataOnSite));
+    }
+
+// Указание типа операции
     formData.append('operation', 'addPostData');
-    // Добавление данных
+// Добавление данных
     formData.append('name', nameInput.value);
     formData.append('company', companyInput.value);
     formData.append('group', groupInput.value);
@@ -65,7 +97,7 @@ function addPostData(nameInput, companyInput, groupInput, phoneInput, emailInput
     formData.append('birthday', birthdayInput.value);
     formData.append('addition', additionInput.value);
     formData.append('description', descriptionInput.value);
-    // Передача данных
+// Передача данных
     fetch(scriptUrl, {
         method: 'POST',
         body: formData
@@ -74,12 +106,12 @@ function addPostData(nameInput, companyInput, groupInput, phoneInput, emailInput
         .then(data => {
             // Перезагружаем страницу
             mainLogo.click();
+            //localStorage.setItem("nothingChange", "false");
         })
 }
 
 // Функция вывода всех контактов
 function showAllContacts() {
-    console.log(localStorage.getItem("nothingChange"))
     if (("dataOnSite" in localStorage) && localStorage.getItem("nothingChange") === "true") {
         addGotData(JSON.parse(localStorage.getItem("dataOnSite")));
     } else {
@@ -114,7 +146,7 @@ function addGotData(data) {
                 //Кнопка звонка
                 "               <button type=\"button\" class=\"btn btn-icon\" onclick=\"updateLastCall(this)\" data-phone='" + row.phone + "'><span class='phone me-1'></span>Call</button>\n" +
                 //Кнопка изменения контакта
-                "                <button type=\"button\" class=\"btn btn-icon\" onclick=\"editContactFunction(this)\" data-name='" + row.name + "'data-company='" + row.company + "'data-group='" + row.group + "'data-birthday='" + row.birthday + "'data-phone='" + row.phone + "'data-email='" + row.email + "'data-address='" + row.address + "'data-lastCall='" + row.lastCall + "'data-addition='" + row.addition + "'data-description='" + row.description + "'><span class='pen me-1'></span>Edit</button>\n" +
+                "                <button type=\"button\" class=\"btn btn-icon\" onclick=\"editContactFunction(this)\" data-name='" + row.name + "'data-company='" + row.company + "'data-group='" + row.group + "'data-birthday='" + row.birthday + "'data-phone='" + row.phone + "'data-email='" + row.email + "'data-address='" + row.address + "'data-lastCall='" + row.lastCall + "'data-addition='" + row.addition + "'data-description='" + row.description + "'data-id='" + index + "' ><span class='pen me-1'></span>Edit</button>\n" +
                 //Кнопка удаления контакта
                 "                <button type=\"button\" class=\"btn btn-icon\" onclick=\"deleteContactFunction(this)\" data-phone='" + row.phone + "'><span class='trash me-1'></span>Delete</button>\n" +
                 "            </div>\n" +
@@ -153,6 +185,8 @@ function editContactFunction(object) {
     document.getElementById("address").setAttribute('value', object.getAttribute("data-address"));
     document.getElementById("additionalInfo").setAttribute('value', object.getAttribute("data-addition"));
     document.getElementById("description").setAttribute('value', object.getAttribute("data-description"));
+    //let tmp = ('{"name":"' + object.getAttribute("data-name") + '","company":"' + object.getAttribute("data-company") + '","group":"' + object.getAttribute("data-group") + '","birthday":"' + object.getAttribute("data-birthday") + '","phone":' + object.getAttribute("data-phone") + ',"email":"' + object.getAttribute("data-email") + '","address":"' + object.getAttribute("data-address") + '","lastCall":' + JSON.stringify(object.getAttribute("data-lastCall")) + ',"addition":"' + object.getAttribute("data-addition") + '","description":"' + object.getAttribute("data-description") + '"}')
+    localStorage.setItem("index", object.getAttribute("data-id"));
 }
 
 // Функция удаления контакта
