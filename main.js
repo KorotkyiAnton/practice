@@ -1,7 +1,7 @@
 /**
  * decoration tools
  */
- const scriptUrl = 'https://script.google.com/macros/s/AKfycbxLXCrEyEk2gIgJ_ZvVNrVikrEfsWanfmTOH3znQ_2tad8F3jNxfGNZn-mYJM8sNM0Teg/exec'; // Ссылка на развернутое веб-приложение gas
+ const scriptUrl = 'https://script.google.com/macros/s/AKfycbzvprywA1m-k49L6hCtNhlXW6ddvdM93DaAEN_T4zfTv851YPhGpJhMu-iei9BOg3VQiw/exec'; // Ссылка на развернутое веб-приложение gas
  let dataOnSite; // Данные которые сейчас на экране
  window.onload = () => {
      const importContactForm = document.getElementById("importContactForm");
