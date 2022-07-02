@@ -1,7 +1,7 @@
 /**
  * decoration tools
  */
-const scriptUrl = 'https://script.google.com/macros/s/AKfycbzvprywA1m-k49L6hCtNhlXW6ddvdM93DaAEN_T4zfTv851YPhGpJhMu-iei9BOg3VQiw/exec'; // Ссылка на развернутое веб-приложение gas
+const scriptUrl = 'https://script.google.com/macros/s/AKfycbwBl0M0mkbdYIehRWFLjv5pNdS_ktNoO3AkFuBrZW-ukE599uO6-nudSXyiC5FGd_aaOA/exec'; // Ссылка на развернутое веб-приложение gas
 let dataOnSite; // Данные которые сейчас на экране
 
 window.onload = () => {
@@ -10,6 +10,19 @@ window.onload = () => {
     contactForm.classList.add("collapse");
     importContactForm.classList.add("collapse");
     showAllContacts(); // Показать все контакты\
+}
+
+window.onblur = () => {
+    fetch(scriptUrl)
+        .then(res => res.json())
+        .then(data => {
+            data = data.reverse();
+            localStorage.setItem("size", data.length);
+            localStorage.setItem("dataOnSite", JSON.stringify(data));
+            // Получаем данные
+            dataOnSite = data;
+            sort()
+        })
 }
 
 // Функция для вывода формы добавления контакта
@@ -38,19 +51,29 @@ function SubmitBtn() {
     const nameInput = document.getElementById("name");
     const phoneInput = document.getElementById("phone");
     const emailInput = document.getElementById("email");
-    if(nameInput){
-        console.log(nameInput)
-        alert("Введите имя")
+    let regex = new RegExp("^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$");
+    if (nameInput.value==="") {
+        document.getElementById("name").classList.add("is-invalid");
+        document.getElementById("emptyName").classList.remove("collapse");
+        window.location.href = "index.html#name";
         return;
     }
-    if(phoneInput){
-        console.log(phoneInput)
-        alert("Введите телефон")
+    if(phoneInput.value[0]!=="3") {
+        phoneInput.value = "38"+phoneInput.value;
+    }
+    if(phoneInput.value[0]==="+") {
+        phoneInput.value = phoneInput.value.substring(1,phoneInput.value.length);
+    }
+    if (phoneInput.value==="" || phoneInput.value.length !== 12) {
+        document.getElementById("phone").classList.add("is-invalid");
+        document.getElementById("emptyPhone").classList.remove("collapse");
+        window.location.href = "index.html#phone";
         return;
     }
-    if(emailInput){
-        console.log(emailInput)
-        alert("Введите почту")
+    if (!(regex.test(emailInput.value))) {
+        document.getElementById("email").classList.add("is-invalid");
+        document.getElementById("emptyEmail").classList.remove("collapse");
+        window.location.href = "index.html#email";
         return;
     }
     // Установка полей
@@ -100,12 +123,12 @@ function addPostData(nameInput, companyInput, groupInput, phoneInput, emailInput
         localStorage.setItem("dataOnSite", JSON.stringify(dataOnSite));
     }
 
-function base(){
-    listOfContact.classList.remove("collapse");
-    importContactForm.classList.remove("collapse");
-    contactForm.classList.add("collapse");
-    sortForm.classList.remove("collapse");
-}
+    function base() {
+        listOfContact.classList.remove("collapse");
+        importContactForm.classList.remove("collapse");
+        contactForm.classList.add("collapse");
+        sortForm.classList.remove("collapse");
+    }
 
 // Указание типа операции
     formData.append('operation', 'addPostData');
@@ -123,8 +146,7 @@ function base(){
     addGotData(dataOnSite);
 // Передача данных
     fetch(scriptUrl, {
-        method: 'POST',
-        body: formData
+        method: 'POST', body: formData
     })
         .then(res => res.json())
         .then(data => {
@@ -133,8 +155,8 @@ function base(){
 
 // Функция вывода всех контактов
 function showAllContacts() {
-    let dataLocal = JSON.parse(localStorage.getItem("dataOnSite"))
-    if (("dataOnSite" in localStorage)&&(dataLocal.length==JSON.parse(localStorage.getItem("size")))) {
+    dataLocal = JSON.parse(localStorage.getItem("dataOnSite"))
+    if (("dataOnSite" in localStorage) && (dataLocal.length == JSON.parse(localStorage.getItem("size")))) {
         sort()
     } else {
         // Отправляется запрос
@@ -144,7 +166,6 @@ function showAllContacts() {
                 data = data.reverse();
                 localStorage.setItem("size", data.length);
                 localStorage.setItem("dataOnSite", JSON.stringify(data));
-                console.log(JSON.stringify(data));
                 // Получаем данные
                 dataOnSite = data;
                 sort()
@@ -157,7 +178,7 @@ function addGotData(data) {
     listOfContact.innerHTML = "";
     //За каждую строку в таблице получаем по ряду
     data.forEach((row, index) => {
-        if (row.name !== '' && row.phone !== '' && row.email !== '') // Проверка важных ячеек, чтоб не выводилась пустота
+        if (row.name !== 'Name' && row.name !== '' && row.phone !== '' && row.email !== '') // Проверка важных ячеек, чтоб не выводилась пустота
         {
             listOfContact.innerHTML += "<li class=\"list-group-item mb-1\">\n" +
                 "            <div class=\"d-flex flex-row align-items-center\">\n" +
@@ -216,11 +237,11 @@ function editContactFunction(object) {
 
 // Функция удаления контакта
 function deleteContactFunction(object) {
-    data=JSON.parse(localStorage.getItem("dataOnSite"));
+    data = JSON.parse(localStorage.getItem("dataOnSite"));
     date = new Date();
     dateNow = String(date.getDate()).padStart(2, '0') + '.' + String(date.getMonth() + 1).padStart(2, '0') + '.' + date.getFullYear();
-    Index=data.findIndex(o=>o.phone==object.getAttribute("data-phone"))
-    data.splice(Index,1);
+    Index = data.findIndex(o => o.phone == object.getAttribute("data-phone"))
+    data.splice(Index, 1);
     localStorage.setItem("dataOnSite", JSON.stringify(data));
     const formData = new FormData();
     // Указание типа операции
@@ -231,8 +252,7 @@ function deleteContactFunction(object) {
     localStorage.setItem("size", data.length);
     // Запрос
     fetch(scriptUrl, {
-        method: 'POST',
-        body: formData
+        method: 'POST', body: formData
     })
 
         .then(res => res.json())
@@ -254,8 +274,7 @@ function searchContact() {
     formData.append('value', searchInput.value);
     // Посылаем запрос
     fetch(scriptUrl, {
-        method: 'POST',
-        body: formData
+        method: 'POST', body: formData
     })
         .then(res => res.json())
         .then(data => {
@@ -274,6 +293,7 @@ function searchContact() {
 function exportContacts(path) {
     //Создаём файл со значением наших данных
     let a = document.createElement("a");
+    let dataOnSite = JSON.parse(localStorage.getItem("dataOnSite"));
     let file = new Blob([JSON.stringify(dataOnSite.reverse())], {type: "application/json"});
     a.href = URL.createObjectURL(file);
     a.download = "export.json";
@@ -327,8 +347,7 @@ function importContacts() {
             formData.append('data', lines); // номер телефона
             //Отправляем запрос с формой в параметре
             fetch(scriptUrl, {
-                method: 'POST',
-                body: formData
+                method: 'POST', body: formData
             })
                 .then(() => {
                 })
@@ -343,8 +362,7 @@ function reminder() {
     formData.append('operation', 'reminder');
     // Делаем запрос напоминания
     fetch(scriptUrl, {
-        method: 'POST',
-        body: formData
+        method: 'POST', body: formData
     })
         .then(res => res.json())
         .then(data => {
@@ -356,13 +374,11 @@ setInterval(reminder, 86400000);
 
 //Функция, которая обновляет дату последниего звонка
 function updateLastCall(object) {
-    data=JSON.parse(localStorage.getItem("dataOnSite"));
+    data = JSON.parse(localStorage.getItem("dataOnSite"));
     date = new Date();
-    dateNow = String(date.getDate()).padStart(2, '0') + '.' + String(date.getMonth() + 1).padStart(2, '0') + '.' + date.getFullYear();
-    console.log(dateNow)
-    Index=data.findIndex(o=>o.phone==object.getAttribute("data-phone"))
-    data[Index].lastCall=dateNow;
-    console.log(data[Index].lastCall)
+    dateNow = new Date(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds());
+    Index = data.findIndex(o => o.phone == object.getAttribute("data-phone"))
+    data[Index].lastCall = dateNow;
     localStorage.setItem("dataOnSite", JSON.stringify(data));
     const formData = new FormData();
     // Указываем операцию
@@ -373,8 +389,7 @@ function updateLastCall(object) {
     sort()
     // Отправляем запрос
     fetch(scriptUrl, {
-        method: 'POST',
-        body: formData
+        method: 'POST', body: formData
     })
         .then(res => res.json())
         .then(data => {
@@ -382,25 +397,31 @@ function updateLastCall(object) {
 }
 
 function sort() {
-    let sortType = document.getElementById("sortParam");
+    sortType = document.getElementById("sortParam");
     sortType.value;
-    let data = JSON.parse(localStorage.getItem("dataOnSite"));
-    console.log(sortType.value);
-    console.log(data);
-    if(sortType.value == "name"){
-    data.sort(function(a, b){
-        if(a.name.toLowerCase() < b.name.toLowerCase()) { return -1; }
-        if(a.name.toLowerCase() > b.name.toLowerCase()) { return 1; }
-        return 0;
-    })
-    }else if(sortType.value == "lastCall"){
-        data.sort(function(a, b){
-            date1 = new Date(a.lastCall).toLocaleDateString('en-US')
-            date2 = new Date(b.lastCall).toLocaleDateString('en-US')
-            if(date1 < date2) { return -1; }
-            if(date1 > date2) { return 1; }
+    data = JSON.parse(localStorage.getItem("dataOnSite"));
+    if (sortType.value == "name") {
+        data.sort(function (a, b) {
+            if (a.name.toLowerCase() < b.name.toLowerCase()) {
+                return -1;
+            }
+            if (a.name.toLowerCase() > b.name.toLowerCase()) {
+                return 1;
+            }
             return 0;
-        }) 
+        })
+    } else if (sortType.value == "lastCall") {
+        data.sort(function (a, b) {
+            date1 = new Date(a.lastCall)
+            date2 = new Date(b.lastCall)
+            if (date1 < date2) {
+                return 1;
+            }
+            if (date1 > date2) {
+                return -1;
+            }
+            return 0;
+        })
     }
     localStorage.setItem("dataOnSite", JSON.stringify(data));
     addGotData(data)
