@@ -6,7 +6,6 @@ let dataOnSite; // Данные которые сейчас на экране
 
 window.onload = () => {
     const importContactForm = document.getElementById("importContactForm");
-    const sortForm = document.getElementById("sortForm");
     contactForm.classList.add("collapse");
     importContactForm.classList.add("collapse");
     showAllContacts(); // Показать все контакты\
@@ -51,7 +50,7 @@ function SubmitBtn() {
     const nameInput = document.getElementById("name");
     const phoneInput = document.getElementById("phone");
     const emailInput = document.getElementById("email");
-    let regex = new RegExp("^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$");
+    let regex = new RegExp("^[a-zA-Z\\d._-]+@[a-zA-Z\\d.-]+\\.[a-zA-Z]{2,4}$");
     if (nameInput.value==="") {
         document.getElementById("name").classList.add("is-invalid");
         document.getElementById("emptyName").classList.remove("collapse");
@@ -149,14 +148,12 @@ function addPostData(nameInput, companyInput, groupInput, phoneInput, emailInput
         method: 'POST', body: formData
     })
         .then(res => res.json())
-        .then(data => {
-        })
 }
 
 // Функция вывода всех контактов
 function showAllContacts() {
-    dataLocal = JSON.parse(localStorage.getItem("dataOnSite"))
-    if (("dataOnSite" in localStorage) && (dataLocal.length == JSON.parse(localStorage.getItem("size")))) {
+    let dataLocal = JSON.parse(localStorage.getItem("dataOnSite"))
+    if (("dataOnSite" in localStorage) && (dataLocal.length === JSON.parse(localStorage.getItem("size")))) {
         sort()
     } else {
         // Отправляется запрос
@@ -188,7 +185,7 @@ function addGotData(data) {
                 //Кнопка звонка
                 "               <button type=\"button\" class=\"btn btn-icon\" onclick=\"updateLastCall(this)\" data-phone='" + row.phone + "'><span class='phone me-1'></span>Call</button>\n" +
                 //Кнопка изменения контакта
-                "                <button type=\"button\" class=\"btn btn-icon\" onclick=\"editContactFunction(this)\" data-name='" + row.name + "'data-company='" + row.company + "'data-group='" + row.group + "'data-birthday='" + row.birthday + "'data-phone='" + row.phone + "'data-email='" + row.email + "'data-address='" + row.address + "'data-lastCall='" + row.lastCall + "'data-addition='" + row.addition + "'data-description='" + row.description + "'data-id='" + index + "' ><span class='pen me-1'></span>Edit</button>\n" +
+                "                <button type=\"button\" class=\"btn btn-icon\" onclick=\"editContactFunction(this)\" data-name='" + row.name + "' data-company='" + row.company + "' data-group='" + row.group + "' data-birthday='" + row.birthday + "' data-phone='" + row.phone + "' data-email='" + row.email + "' data-address='" + row.address + "' data-lastCall='" + row.lastCall + "' data-addition='" + row.addition + "' data-description='" + row.description + "' data-id='" + index + "' ><span class='pen me-1'></span>Edit</button>\n" +
                 //Кнопка удаления контакта
                 "                <button type=\"button\" class=\"btn btn-icon\" onclick=\"deleteContactFunction(this)\" data-phone='" + row.phone + "'><span class='trash me-1'></span>Delete</button>\n" +
                 "            </div>\n" +
@@ -237,10 +234,8 @@ function editContactFunction(object) {
 
 // Функция удаления контакта
 function deleteContactFunction(object) {
-    data = JSON.parse(localStorage.getItem("dataOnSite"));
-    date = new Date();
-    dateNow = String(date.getDate()).padStart(2, '0') + '.' + String(date.getMonth() + 1).padStart(2, '0') + '.' + date.getFullYear();
-    Index = data.findIndex(o => o.phone == object.getAttribute("data-phone"))
+    let data = JSON.parse(localStorage.getItem("dataOnSite"));
+    let Index = data.findIndex(o => o.phone == object.getAttribute("data-phone"))
     data.splice(Index, 1);
     localStorage.setItem("dataOnSite", JSON.stringify(data));
     const formData = new FormData();
@@ -256,9 +251,6 @@ function deleteContactFunction(object) {
     })
 
         .then(res => res.json())
-        .then(data => {
-
-        })
 }
 
 // Функция поиска данных
@@ -290,7 +282,7 @@ function searchContact() {
 }
 
 // Функция экспорта контактов
-function exportContacts(path) {
+function exportContacts() {
     //Создаём файл со значением наших данных
     let a = document.createElement("a");
     let dataOnSite = JSON.parse(localStorage.getItem("dataOnSite"));
@@ -304,18 +296,17 @@ function exportContacts(path) {
 //Функция поиска файла для импорта
 function getImportFile() {
     //Инициируем нажатие на fileInput
-    fileInput = document.getElementById("file");
+    let fileInput = document.getElementById("file");
     fileInput.click();
 }
 
 //Функция импорта
 function importContacts() {
     //Ищем файл
-    fileInput = document.getElementById("file");
-    const mainLogo = document.getElementById("main");
+    let fileInput = document.getElementById("file");
     getImportFile()
     //Когда нашли:
-    fileInput.onchange = function (e) {
+    fileInput.onchange = () => {
         //Валидируем получение файла
         if (!fileInput) {
             alert("Um, couldn't find the fileinput element.");
@@ -326,8 +317,8 @@ function importContacts() {
         } else {
             // Перезагружаем страницу
             //Файл корректен, читаем данные, отправляем данные в таблицу
-            file = fileInput.files[0];
-            fr = new FileReader();
+            let file = fileInput.files[0];
+            let fr = new FileReader();
             fr.onload = receivedText;
             fr.readAsText(file);
         }
@@ -337,7 +328,7 @@ function importContacts() {
             //Парсим данные
             let lines = JSON.parse(e.target.result);
             localStorage.setItem("dataOnSite", JSON.stringify(lines.reverse()));
-            ; // показать все данные в таблице
+            // показать все данные в таблице
             localStorage.setItem("size", data.length);
             lines = e.target.result
             sort()
@@ -365,8 +356,6 @@ function reminder() {
         method: 'POST', body: formData
     })
         .then(res => res.json())
-        .then(data => {
-        })
 }
 
 // Устанавливаем интервал напоминания
@@ -374,10 +363,10 @@ setInterval(reminder, 86400000);
 
 //Функция, которая обновляет дату последниего звонка
 function updateLastCall(object) {
-    data = JSON.parse(localStorage.getItem("dataOnSite"));
-    date = new Date();
-    dateNow = new Date(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds());
-    Index = data.findIndex(o => o.phone == object.getAttribute("data-phone"))
+    let data = JSON.parse(localStorage.getItem("dataOnSite"));
+    let date = new Date();
+    let dateNow = new Date(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds());
+    let Index = data.findIndex(o => o.phone == object.getAttribute("data-phone"))
     data[Index].lastCall = dateNow;
     localStorage.setItem("dataOnSite", JSON.stringify(data));
     const formData = new FormData();
@@ -392,14 +381,12 @@ function updateLastCall(object) {
         method: 'POST', body: formData
     })
         .then(res => res.json())
-        .then(data => {
-        })
 }
 
 function sort() {
-    sortType = document.getElementById("sortParam");
+    let sortType = document.getElementById("sortParam");
     sortType.value;
-    data = JSON.parse(localStorage.getItem("dataOnSite"));
+    let data = JSON.parse(localStorage.getItem("dataOnSite"));
     if (sortType.value == "name") {
         data.sort(function (a, b) {
             if (a.name.toLowerCase() < b.name.toLowerCase()) {
@@ -412,8 +399,8 @@ function sort() {
         })
     } else if (sortType.value == "lastCall") {
         data.sort(function (a, b) {
-            date1 = new Date(a.lastCall)
-            date2 = new Date(b.lastCall)
+            let date1 = new Date(a.lastCall)
+            let date2 = new Date(b.lastCall)
             if (date1 < date2) {
                 return 1;
             }
