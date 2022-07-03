@@ -34,6 +34,9 @@
      const nameInput = document.getElementById("name");
      const phoneInput = document.getElementById("phone");
      const emailInput = document.getElementById("email");
+     phoneInput.value = phoneInput.value.replaceAll("-","");
+     phoneInput.value = phoneInput.value.replaceAll(/[a-zA-Z]+/g,"");
+     console.log(phoneInput.value)
      let regex = new RegExp("^[a-zA-Z\\d._-]+@[a-zA-Z\\d.-]+\\.[a-zA-Z]{2,4}$");
      if (nameInput.value==="") {
          document.getElementById("name").classList.add("is-invalid");
@@ -68,6 +71,10 @@
      const descriptionInput = document.getElementById("description");
      // Вызов функции добавления/изменения
      addPostData(nameInput, companyInput, groupInput, phoneInput, emailInput, addressInput, birthdayInput, additionInput, descriptionInput);
+ }
+
+ function CancelBtn() {
+     window.location.href = "index.html";
  }
  
  // Функция добавления/изменения контакта
@@ -126,6 +133,7 @@
      formData.append('description', descriptionInput.value);
      localStorage.setItem("size", dataOnSite.length);
      addGotData(dataOnSite);
+     window.location.href = "index.html";
  // Передача данных
      fetch(scriptUrl, {
          method: 'POST', body: formData
@@ -255,7 +263,7 @@
              //Получаем данные
              dataOnSite = data;
              //Выводим данные
-             addGotData(dataOnSite);
+             sort();
          })
      listOfContact.classList.remove("collapse");
      contactForm.classList.add("collapse");
@@ -393,4 +401,9 @@
      }
      localStorage.setItem("dataOnSite", JSON.stringify(data));
      addGotData(data)
+ }
+
+ function sync() {
+     localStorage.clear();
+     window.location.href = "index.html";
  }

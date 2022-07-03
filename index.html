@@ -26,8 +26,8 @@
         .trash::after {content: '\00a0';display: inline-block; width:20px; height:20px; background-image: url(trash.svg);padding: 0; }
         div.trash::after {max-width:20px; width:100%;height:0;padding: 0 0 100% 0;}
         .buttonUp {
+            left: 99%;
             bottom: 1%;
-            right: 1%;
             font-size: 4em;
         }
     </style>
@@ -76,7 +76,7 @@
     </nav>
 </header>
 
-<main id="mainContent" class="mb-3">
+<main id="mainContent" class="mb-3 position-relative">
 <!--  Sort  -->
     <div id="sortForm" class="ms-3 me-3 mb-3">
         <label class="form-label text-white d-flex"><span class="w-25 lh-2">Sort by:</span>
@@ -121,7 +121,7 @@
 <!--  Add And Edit Contact Form -->
     <div id="contactForm" class="ms-3 me-3">
         <div class="mb-2">
-            <label for="name" class="form-label text-white">Name</label>
+            <label for="name" class="form-label text-white">Name<sup>*</sup></label>
             <input type="text" class="form-control bg-dark text-white" id="name" aria-describedby="emailHelp" required>
             <div id="emptyName" class="invalid-feedback collapse">
                 This field is required.
@@ -140,14 +140,14 @@
             </select>
         </div>
         <div class="mb-2">
-            <label for="phone" class="form-label text-white" id="Label-phone">Phone Number</label>
-            <input type="number" class="form-control bg-dark text-white" id="phone" aria-describedby="emailHelp" required>
+            <label for="phone" class="form-label text-white" id="Label-phone">Phone Number<sup>*</sup></label>
+            <input type="text" class="form-control bg-dark text-white" id="phone" aria-describedby="emailHelp" required>
             <div id="emptyPhone" class="invalid-feedback collapse">
                 Incorrect phone number.
             </div>
         </div>
         <div class="mb-2">
-            <label for="email" class="form-label text-white">Email</label>
+            <label for="email" class="form-label text-white">Email<sup>*</sup></label>
             <input type="email" class="form-control bg-dark text-white" id="email" aria-describedby="emailHelp" required>
             <div id="emptyEmail" class="invalid-feedback collapse">
                 Incorrect email.
@@ -170,6 +170,7 @@
             <input type="text" class="form-control bg-dark text-white" id="description" aria-describedby="emailHelp">
         </div>
         <button type="submit" class="btn btn-outline-light" id="btnSubmit" onclick="SubmitBtn();">Submit</button>
+        <button type="submit" class="btn btn-outline-light" id="btnCancel" onclick="CancelBtn();">Cancel</button>
     </div>
 
 <!--  Import  -->
@@ -179,7 +180,7 @@
     </form>
 
 <!--  To top button  -->
-    <a id="btnToTop" class="btn buttonUp position-fixed rounded-2 lh-1 bg-dark bg-gradient text-white" href="#main">^</a>
+    <a id="btnToTop" class="btn buttonUp rounded-2 lh-1 bg-dark bg-gradient text-white position-sticky" href="#main">^</a>
 </main>
 
 <footer class="mt-auto lh-lg bg-dark bg-gradient">
@@ -198,6 +199,9 @@
         </li>
         <li class="list-group-item bg-transparent text-white">
             <a class="nav-link" data-bs-toggle="collapse" href="#aboutUs">About Us</a>
+        </li>
+        <li class="list-group-item bg-transparent text-white ">
+            <a class="nav-link" href="#" onclick="sync()">Table Synchronization</a>
         </li>
     </ul>
     <div class="collapse text-white mb-4" id="aboutUs">
