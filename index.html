@@ -25,6 +25,11 @@
         .trash {max-width:20px; max-height:20px; }
         .trash::after {content: '\00a0';display: inline-block; width:20px; height:20px; background-image: url(trash.svg);padding: 0; }
         div.trash::after {max-width:20px; width:100%;height:0;padding: 0 0 100% 0;}
+        .buttonUp {
+            bottom: 1%;
+            right: 1%;
+            font-size: 4em;
+        }
     </style>
 </head>
 <body class="bg-dark d-flex flex-column min-vh-100">
@@ -168,10 +173,13 @@
     </div>
 
 <!--  Import  -->
-    <form id="importContactForm" action="" method="post">
+    <form id="importContactForm" class="collapse" action="" method="post">
         <label for="file" class="text-white">Choose file to import:</label>
         <input id="file" type="file">
     </form>
+
+<!--  To top button  -->
+    <a id="btnToTop" class="btn buttonUp position-fixed rounded-2 lh-1 bg-dark bg-gradient text-white" href="#main">^</a>
 </main>
 
 <footer class="mt-auto lh-lg bg-dark bg-gradient">
