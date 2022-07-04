@@ -1,7 +1,7 @@
 /**
  * decoration tools
  */
- const scriptUrl = 'https://script.google.com/macros/s/AKfycbxw7NEHXwld_q-TNSn5Ue3tUckjqZeUeyw4qKpA3Y5v8ZEXDS-7kjtMhaC-1fHSgAxMcQ/exec'; // Ссылка на развернутое веб-приложение gas
+ const scriptUrl = 'https://script.google.com/macros/s/AKfycbysBa_k1DjpQgBLj7dmF2ipTAJp_iSYETTiE-jPqWE6ZBAsR4FkWT9cuhpQavun2vRVnA/exec'; // Ссылка на развернутое веб-приложение gas
  let dataOnSite; // Данные которые сейчас на экране
  
  window.onload = () => {
@@ -44,23 +44,29 @@
          window.location.href = "index.html#name";
          return;
      }
-     if(phoneInput.value[0]!=="3") {
-         phoneInput.value = "38"+phoneInput.value;
+     if(phoneInput.value != "")
+     {
+        if(phoneInput.value[0]!=="3") {
+            phoneInput.value = "38"+phoneInput.value;
+        }
+        if(phoneInput.value[0]==="+") {
+            phoneInput.value = phoneInput.value.substring(1,phoneInput.value.length);
+        }
+        if (phoneInput.value==="" || phoneInput.value.length !== 12) {
+            document.getElementById("phone").classList.add("is-invalid");
+            document.getElementById("emptyPhone").classList.remove("collapse");
+            window.location.href = "index.html#phone";
+            return;
+        }
      }
-     if(phoneInput.value[0]==="+") {
-         phoneInput.value = phoneInput.value.substring(1,phoneInput.value.length);
-     }
-     if (phoneInput.value==="" || phoneInput.value.length !== 12) {
-         document.getElementById("phone").classList.add("is-invalid");
-         document.getElementById("emptyPhone").classList.remove("collapse");
-         window.location.href = "index.html#phone";
-         return;
-     }
-     if (!(regex.test(emailInput.value))) {
-         document.getElementById("email").classList.add("is-invalid");
-         document.getElementById("emptyEmail").classList.remove("collapse");
-         window.location.href = "index.html#email";
-         return;
+     if(emailInput.value != "")
+     {
+        if (!(regex.test(emailInput.value))) {
+            document.getElementById("email").classList.add("is-invalid");
+            document.getElementById("emptyEmail").classList.remove("collapse");
+            window.location.href = "index.html#email";
+            return;
+        }
      }
      // Установка полей
      const companyInput = document.getElementById("company");
@@ -174,11 +180,11 @@
                  row.name +
                  "                </a>\n" +
                  //Кнопка звонка
-                 "               <button type=\"button\" class=\"btn btn-icon\" onclick=\"updateLastCall(this)\" data-phone='" + row.phone + "'><span class='phone me-1'></span>Call</button>\n" +
+                 "               <button type=\"button\" class=\"btn btn-icon\" onclick=\"updateLastCall(this)\" data-name='" + row.name + "'><span class='phone me-1'></span>Call</button>\n" +
                  //Кнопка изменения контакта
                  "                <button type=\"button\" class=\"btn btn-icon\" onclick=\"editContactFunction(this)\" data-name='" + row.name + "' data-company='" + row.company + "' data-group='" + row.group + "' data-birthday='" + row.birthday + "' data-phone='" + row.phone + "' data-email='" + row.email + "' data-address='" + row.address + "' data-lastCall='" + row.lastCall + "' data-addition='" + row.addition + "' data-description='" + row.description + "' data-id='" + index + "' ><span class='pen me-1'></span>Edit</button>\n" +
                  //Кнопка удаления контакта
-                 "                <button type=\"button\" class=\"btn btn-icon\" onclick=\"deleteContactFunction(this)\" data-phone='" + row.phone + "'><span class='trash me-1'></span>Delete</button>\n" +
+                 "                <button type=\"button\" class=\"btn btn-icon\" onclick=\"deleteContactFunction(this)\" data-name='" + row.name + "'><span class='trash me-1'></span>Delete</button>\n" +
                  "            </div>\n" +
                  "            <div class=\"collapse\" id=\"id" + index + "\">\n" +
                  "                <div class=\"card card-body\">\n" +
@@ -205,9 +211,6 @@
      sortForm.classList.add("collapse");
      contactForm.classList.remove("collapse");
  
-     document.getElementById("Label-phone").classList.add("collapse");
-     document.getElementById("phone").classList.add("collapse");
- 
      // Заполняем поля уже имеющимися данными
      document.getElementById("name").setAttribute('value', object.getAttribute("data-name"));
      document.getElementById("company").setAttribute('value', object.getAttribute("data-company"));
@@ -225,14 +228,14 @@
  // Функция удаления контакта
  function deleteContactFunction(object) {
      let data = JSON.parse(localStorage.getItem("dataOnSite"));
-     let Index = data.findIndex(o => o.phone == object.getAttribute("data-phone"))
+     let Index = data.findIndex(o => o.name == object.getAttribute("data-name"))
      data.splice(Index, 1);
      localStorage.setItem("dataOnSite", JSON.stringify(data));
      const formData = new FormData();
      // Указание типа операции
      formData.append('operation', 'deleteContact');
      // Передача номера в качестве параметра
-     formData.append('phone', object.getAttribute("data-phone"));
+     formData.append('name', object.getAttribute("data-name"));
      addGotData(data);
      localStorage.setItem("size", data.length);
      // Запрос
@@ -355,14 +358,14 @@
      let data = JSON.parse(localStorage.getItem("dataOnSite"));
      let date = new Date();
      let dateNow = new Date(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds());
-     let Index = data.findIndex(o => o.phone == object.getAttribute("data-phone"))
+     let Index = data.findIndex(o => o.name == object.getAttribute("data-name"));
      data[Index].lastCall = dateNow;
      localStorage.setItem("dataOnSite", JSON.stringify(data));
      const formData = new FormData();
      // Указываем операцию
      formData.append('operation', 'updateLastCall');
      // Указываем номер телефона
-     formData.append('phone', object.getAttribute("data-phone"));
+     formData.append('name', object.getAttribute("data-name"));
      // Отображаем данные в тегах
      sort()
      // Отправляем запрос
