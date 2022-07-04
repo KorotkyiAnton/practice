@@ -73,10 +73,11 @@
      const groupInput = document.getElementById("group");
      const addressInput = document.getElementById("address");
      const birthdayInput = document.getElementById("birthday");
+     const lastCall = document.getElementById("lastCall");
      const additionInput = document.getElementById("additionalInfo");
      const descriptionInput = document.getElementById("description");
      // Вызов функции добавления/изменения
-     addPostData(nameInput, companyInput, groupInput, phoneInput, emailInput, addressInput, birthdayInput, additionInput, descriptionInput);
+     addPostData(nameInput, companyInput, groupInput, phoneInput, emailInput, addressInput, birthdayInput, lastCall, additionInput, descriptionInput);
  }
 
  function CancelBtn() {
@@ -84,7 +85,7 @@
  }
  
  // Функция добавления/изменения контакта
- function addPostData(nameInput, companyInput, groupInput, phoneInput, emailInput, addressInput, birthdayInput, additionInput, descriptionInput) {
+ function addPostData(nameInput, companyInput, groupInput, phoneInput, emailInput, addressInput, birthdayInput, lastCall, additionInput, descriptionInput) {
      base();
      const formData = new FormData();
      let dataOnSite = JSON.parse(localStorage.getItem("dataOnSite"));
@@ -97,7 +98,7 @@
              "phone": parseInt(phoneInput.value),
              "email": emailInput.value,
              "address": addressInput.value,
-             "lastCall": null,
+             "lastCall": lastCall.value,
              "addition": additionInput.value,
              "description": descriptionInput.value
          };
@@ -135,6 +136,7 @@
      formData.append('email', emailInput.value);
      formData.append('address', addressInput.value);
      formData.append('birthday', birthdayInput.value);
+     formData.append('lastCall', lastCall.value);
      formData.append('addition', additionInput.value);
      formData.append('description', descriptionInput.value);
      localStorage.setItem("size", dataOnSite.length);
@@ -219,6 +221,7 @@
      document.getElementById("phone").setAttribute('value', object.getAttribute("data-phone"));
      document.getElementById("email").setAttribute('value', object.getAttribute("data-email"));
      document.getElementById("address").setAttribute('value', object.getAttribute("data-address"));
+     document.getElementById("lastCall").setAttribute('value', object.getAttribute("data-lastCall"));
      document.getElementById("additionalInfo").setAttribute('value', object.getAttribute("data-addition"));
      document.getElementById("description").setAttribute('value', object.getAttribute("data-description"));
      //let tmp = ('{"name":"' + object.getAttribute("data-name") + '","company":"' + object.getAttribute("data-company") + '","group":"' + object.getAttribute("data-group") + '","birthday":"' + object.getAttribute("data-birthday") + '","phone":' + object.getAttribute("data-phone") + ',"email":"' + object.getAttribute("data-email") + '","address":"' + object.getAttribute("data-address") + '","lastCall":' + JSON.stringify(object.getAttribute("data-lastCall")) + ',"addition":"' + object.getAttribute("data-addition") + '","description":"' + object.getAttribute("data-description") + '"}')
