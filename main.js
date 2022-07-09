@@ -304,7 +304,7 @@
      fileInput.onchange = () => {
          //Валидируем получение файла
          if (!fileInput) {
-             alert("Um, couldn't find the fileinput element.");
+             alert("Um, couldn't find the file input element.");
          } else if (!fileInput.files) {
              alert("This browser doesn't seem to support the `files` property of file inputs.");
          } else if (!fileInput.files[0]) {
@@ -356,7 +356,7 @@
  // Устанавливаем интервал напоминания
  setInterval(reminder, 86400000);
  
- //Функция, которая обновляет дату последниего звонка
+ //Функция, которая обновляет дату последнего звонка
  function updateLastCall(object) {
      let data = JSON.parse(localStorage.getItem("dataOnSite"));
      let date = new Date();

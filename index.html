@@ -16,15 +16,70 @@
         .preloader {
             width: 30%;
         }
-        .pen {max-width:20px; max-height:20px; }
-        .pen::after {content: '\00a0';display: inline-block; width:20px; height:20px; background-image: url(pen.svg);padding: 0; }
-        div.pen::after {max-width:20px; width:100%;height:0;padding: 0 0 100% 0;}
-        .phone {max-width:20px; max-height:20px; }
-        .phone::after {content: '\00a0';display: inline-block; width:20px; height:20px;background-image: url(phone.svg);padding: 0; }
-        div.phone::after {max-width:20px; width:100%;height:0;padding: 0 0 100% 0;}
-        .trash {max-width:20px; max-height:20px; }
-        .trash::after {content: '\00a0';display: inline-block; width:20px; height:20px; background-image: url(trash.svg);padding: 0; }
-        div.trash::after {max-width:20px; width:100%;height:0;padding: 0 0 100% 0;}
+
+        .pen {
+            max-width: 20px;
+            max-height: 20px;
+        }
+
+        .pen::after {
+            content: '\00a0';
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            background-image: url(pen.svg);
+            padding: 0;
+        }
+
+        div.pen::after {
+            max-width: 20px;
+            width: 100%;
+            height: 0;
+            padding: 0 0 100% 0;
+        }
+
+        .phone {
+            max-width: 20px;
+            max-height: 20px;
+        }
+
+        .phone::after {
+            content: '\00a0';
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            background-image: url(phone.svg);
+            padding: 0;
+        }
+
+        div.phone::after {
+            max-width: 20px;
+            width: 100%;
+            height: 0;
+            padding: 0 0 100% 0;
+        }
+
+        .trash {
+            max-width: 20px;
+            max-height: 20px;
+        }
+
+        .trash::after {
+            content: '\00a0';
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            background-image: url(trash.svg);
+            padding: 0;
+        }
+
+        div.trash::after {
+            max-width: 20px;
+            width: 100%;
+            height: 0;
+            padding: 0 0 100% 0;
+        }
+
         .buttonUp {
             left: 99%;
             bottom: 1%;
@@ -45,10 +100,12 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item" id="addContact">
-                        <a  onclick="AdderSettings();" class="nav-link addRedactContact" href="#" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">Add Contact</a>
+                        <a onclick="AdderSettings();" class="nav-link addRedactContact" href="#"
+                           data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">Add Contact</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link"  onclick="importContacts();" href="#" id="import" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">Import</a>
+                        <a class="nav-link" onclick="importContacts();" href="#" id="import" data-bs-toggle="collapse"
+                           data-bs-target="#navbarSupportedContent">Import</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#" onclick="exportContacts();" id="export">Export</a>
@@ -68,8 +125,11 @@
                         <option>Addition Info</option>
                         <option>Description</option>
                     </select>
-                    <input class="form-control me-2" id="searchInput" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-light" id="searchBtn" onclick="searchContact()" type="submit">Search</button>
+                    <input class="form-control me-2" id="searchInput" type="search" placeholder="Search"
+                           aria-label="Search">
+                    <button class="btn btn-outline-light" id="searchBtn" onclick="searchContact()" type="submit">
+                        Search
+                    </button>
                 </div>
             </div>
         </div>
@@ -77,26 +137,31 @@
 </header>
 
 <main id="mainContent" class="mb-3 position-relative">
-<!--  Sort  -->
+    <!--  Sort  -->
     <div id="sortForm" class="ms-3 me-3 mb-3">
         <label class="form-label text-white d-flex"><span class="w-25 lh-2">Sort by:</span>
-        <select class="form-control bg-dark text-white flex-fill" id="sortParam" onchange="sort()">
-            <option value="lastCall">Recent</option>
-            <option value="name">Name (A-Z)</option>
-        </select>
+            <select class="form-control bg-dark text-white flex-fill" id="sortParam" onchange="sort()">
+                <option value="lastCall">Recent</option>
+                <option value="name">Name (A-Z)</option>
+            </select>
         </label>
     </div>
 
-<!--  List Of Contacts  -->
+    <!--  List Of Contacts  -->
     <ul class="list-group ms-2 me-2" id="listOfContact">
         <li class="list-group-item">
             <div class="d-flex flex-row align-items-center">
                 <a class="nav-link d-flex flex-fill" data-bs-toggle="collapse" href="#id1">
                     None
                 </a>
-                <button type="button" class="btn btn-icon" onclick='updateLastCall()'><span class='phone me-1'></span>Call</button>
-                <button type="button" class="btn btn-icon" onclick='editContactFunction(this)'><span class='pen me-1'></span>Edit</button>
-                <button type="button" class="btn btn-icon" onclick='deleteContactFunction(this)'><span class='trash me-1'></span>Delete</button>
+                <button type="button" class="btn btn-icon" onclick='updateLastCall()'><span class='phone me-1'></span>Call
+                </button>
+                <button type="button" class="btn btn-icon" onclick='editContactFunction(this)'><span
+                        class='pen me-1'></span>Edit
+                </button>
+                <button type="button" class="btn btn-icon" onclick='deleteContactFunction(this)'><span
+                        class='trash me-1'></span>Delete
+                </button>
             </div>
             <div class="collapse" id="id1">
                 <div class="card card-body">
@@ -148,7 +213,8 @@
         </div>
         <div class="mb-2">
             <label for="email" class="form-label text-white">Email</label>
-            <input type="email" class="form-control bg-dark text-white" id="email" aria-describedby="emailHelp" required>
+            <input type="email" class="form-control bg-dark text-white" id="email" aria-describedby="emailHelp"
+                   required>
             <div id="emptyEmail" class="invalid-feedback collapse">
                 Incorrect email.
             </div>
@@ -163,7 +229,8 @@
         </div>
         <div class="mb-2 collapse">
             <label for="lastCall" class="form-label text-white" hidden>Last Call</label>
-            <input type="text" class="form-control bg-dark text-white" id="lastCall" aria-describedby="emailHelp" hidden>
+            <input type="text" class="form-control bg-dark text-white" id="lastCall" aria-describedby="emailHelp"
+                   hidden>
         </div>
         <div class="mb-2">
             <label for="additionalInfo" class="form-label text-white">Additional Info</label>
@@ -177,14 +244,14 @@
         <button type="submit" class="btn btn-outline-light" id="btnCancel" onclick="CancelBtn();">Cancel</button>
     </div>
 
-<!--  Import  -->
+    <!--  Import  -->
     <form id="importContactForm" class="collapse" action="" method="post">
         <label for="file" class="text-white">Choose file to import:</label>
         <input id="file" type="file">
     </form>
 
-<!--  To top button  -->
-    <a id="btnToTop" class="btn buttonUp rounded-2 lh-1 bg-dark bg-gradient text-white position-sticky" href="#main">^</a>
+    <!--  To top button  -->
+    <a id="btnToTop" class="btn buttonUp rounded-2 lh-1 bg-dark bg-gradient text-white position-sticky"  href="#main">^</a>
 </main>
 
 <footer class="mt-auto lh-lg bg-dark bg-gradient">
@@ -196,10 +263,14 @@
             <a class="nav-link" href="https://korotkyianton.github.io/practice/" target="_blank">Git Page</a>
         </li>
         <li class="list-group-item bg-transparent text-white ">
-            <a class="nav-link" href="https://script.google.com/u/2/home/projects/1lLY9nZ-XE2rTkORuHijunPuSXGEwi_Dm6VT_SDKnee3xdyVEKLcXM8kW/edit" target="_blank">Google Script</a>
+            <a class="nav-link"
+               href="https://script.google.com/u/2/home/projects/1lLY9nZ-XE2rTkORuHijunPuSXGEwi_Dm6VT_SDKnee3xdyVEKLcXM8kW/edit"
+               target="_blank">Google Script</a>
         </li>
         <li class="list-group-item bg-transparent text-white ">
-            <a class="nav-link" href="https://docs.google.com/spreadsheets/d/1izn5fZ1-Iurdz9EKH4lxSu72BZVtOKfpoQpzLVqHpL0/edit#gid=0" target="_blank">Google Spreadsheet</a>
+            <a class="nav-link"
+               href="https://docs.google.com/spreadsheets/d/1izn5fZ1-Iurdz9EKH4lxSu72BZVtOKfpoQpzLVqHpL0/edit#gid=0"
+               target="_blank">Google Spreadsheet</a>
         </li>
         <li class="list-group-item bg-transparent text-white">
             <a class="nav-link" data-bs-toggle="collapse" href="#aboutUs">About Us</a>
